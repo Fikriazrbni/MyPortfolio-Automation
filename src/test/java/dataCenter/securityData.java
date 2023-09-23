@@ -11,15 +11,18 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import static dataCenter.excelJobs.readData;
+
 public class securityData {
     private static SecretKeySpec secretKey;
     private static byte[] key;
     private static final String ALGORITHM = "AES";
+    public static String secret = readData("username");
 
-    public void prepareSecreteKey(String myKey) {
+    public static void prepareSecreteKey() {
         MessageDigest sha = null;
         try {
-            key = myKey.getBytes(StandardCharsets.UTF_8);
+            key = secret.getBytes(StandardCharsets.UTF_8);
             sha = MessageDigest.getInstance("SHA-256");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
@@ -29,9 +32,9 @@ public class securityData {
         }
     }
 
-    public String encrypt(String strToEncrypt, String secret) {
+    public static String encrypt(String strToEncrypt) {
         try {
-            prepareSecreteKey(secret);
+            prepareSecreteKey();
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
@@ -41,9 +44,9 @@ public class securityData {
         return null;
     }
 
-    public String decrypt(String strToDecrypt, String secret) {
+    public static String decrypt(String strToDecrypt) {
         try {
-            prepareSecreteKey(secret);
+            prepareSecreteKey();
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
@@ -58,8 +61,8 @@ public class securityData {
         final String secretKey2 = "AES";
         String originalString = "fikri123";
 
-        String encryptedString = encrypt(originalString, secretKey);
-        String decryptedString = decrypt(encryptedString, secretKey2);
+        String encryptedString = encrypt(originalString);
+        String decryptedString = decrypt(encryptedString);
 
         System.out.println(originalString);
         System.out.println(encryptedString);

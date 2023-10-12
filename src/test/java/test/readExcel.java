@@ -11,7 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
-import static definitions.stepDefinitionApi.hashPassword;
+import static dataCenter.excelJobs.readData;
+import static dataCenter.securityData.*;
 
 public class readExcel {
 
@@ -46,7 +47,7 @@ public class readExcel {
     }
     @Test
     public void test() throws IOException, NoSuchAlgorithmException {
-        writeData("ID","new id");
-        writeData("New password",hashPassword("Password"));
+        writeData("newuser", encrypt("userFikri"));
+        System.out.println(decrypt(readData("newuser")));
     }
 }

@@ -17,7 +17,7 @@ public class securityData {
     private static SecretKeySpec secretKey;
     private static byte[] key;
     private static final String ALGORITHM = "AES";
-    public static String secret = readData("username");
+    public static String secret = readData("secret");
 
     public static void prepareSecreteKey() {
         MessageDigest sha = null;
@@ -57,8 +57,6 @@ public class securityData {
     }
     @Test
     public void test() {
-        final String secretKey = "AES";
-        final String secretKey2 = "AES";
         String originalString = "fikri123";
 
         String encryptedString = encrypt(originalString);

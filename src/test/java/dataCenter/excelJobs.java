@@ -41,7 +41,7 @@ public class excelJobs {
         return null;  // Return null if the target string is not found or there is an error
     }
 
-    public void writeData(String title ,String value) throws IOException {
+    public void writeNewCredential(String title , String value) throws IOException {
 
         String excelFilePath = path;
         File file = new File(excelFilePath);
@@ -72,7 +72,7 @@ public class excelJobs {
 
     @Test
     public void test() throws IOException {
-        writeData("newuser", encrypt("userFikri"));
-        System.out.println(decrypt(readData("newuser")));
+        writeNewCredential("usere2e", encrypt("password"));
+        System.out.println(decrypt(readData("usere2e")));
     }
 }

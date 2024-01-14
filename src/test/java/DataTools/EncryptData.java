@@ -11,9 +11,9 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import static DataTools.excelJobs.readData;
+import static DataTools.ExcelTools.readData;
 
-public class securityData {
+public class EncryptData {
     private static SecretKeySpec secretKey;
     private static final String ALGORITHM = "AES";
     public static String secret = readData("secret");

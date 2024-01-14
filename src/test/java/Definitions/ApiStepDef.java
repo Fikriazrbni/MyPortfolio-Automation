@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class stepDefinitionApi {
+public class ApiStepDef {
 
     private static final String BASE_URL = "https://petstore.swagger.io/v2";
     private static final String PET_ENDPOINTGET = "/pet/";

@@ -1,4 +1,4 @@
-package dataCenter;
+package DataTools;
 
 import org.testng.annotations.Test;
 
@@ -11,18 +11,17 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import static dataCenter.excelJobs.readData;
+import static DataTools.excelJobs.readData;
 
 public class securityData {
     private static SecretKeySpec secretKey;
-    private static byte[] key;
     private static final String ALGORITHM = "AES";
     public static String secret = readData("secret");
 
     public static void prepareSecreteKey() {
-        MessageDigest sha = null;
+        MessageDigest sha;
         try {
-            key = secret.getBytes(StandardCharsets.UTF_8);
+            byte[] key = secret.getBytes(StandardCharsets.UTF_8);
             sha = MessageDigest.getInstance("SHA-256");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
@@ -37,9 +36,9 @@ public class securityData {
             prepareSecreteKey();
             Cipher cipher = Cipher.getInstance(ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
+            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes(StandardCharsets.UTF_8)));
         } catch (Exception e) {
-            System.out.println("Error while encrypting: " + e.toString());
+            System.out.println("Error while encrypting: " + e);
         }
         return null;
     }
@@ -51,7 +50,7 @@ public class securityData {
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
-            System.out.println("Error while decrypting: " + e.toString());
+            System.out.println("Error while decrypting: " + e);
         }
         return null;
     }

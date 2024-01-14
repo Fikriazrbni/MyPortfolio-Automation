@@ -1,4 +1,4 @@
-package dataCenter;
+package DataTools;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -11,8 +11,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static dataCenter.securityData.decrypt;
-import static dataCenter.securityData.encrypt;
+import static DataTools.securityData.decrypt;
+import static DataTools.securityData.encrypt;
 
 public class excelJobs {
     private final static String path = "testData.xlsx";

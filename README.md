@@ -21,8 +21,8 @@ The Web automation feature focuses on automating the interaction with web interf
 ## Prerequisites
 Ensure you have the following prerequisites installed before setting up and using the portfolio automation tool:
 
-- Java SDK (version X.X.X)
-- Maven (version X.X.X)
+- Java
+- Maven
 - Selenium WebDriver
 - TestNG
 - Extent Report

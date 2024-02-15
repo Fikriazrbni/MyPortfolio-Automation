@@ -13,5 +13,4 @@ public class DeallsPath {
     public static By btnLogout = By.xpath("//span[text()= 'Logout']");
     public static By dtlProfile_name = By.xpath("//*[@id='__next']/div[3]/div[1]/div[1]/div/div/div/div[2]/div[1]/div/span");
     public static By modalWrongEmail = By.xpath("/html/body/div[2]/div/div/div/div/div/span[2]/div/div[1]");
-
 }

@@ -32,7 +32,7 @@ Ensure you have the following prerequisites installed before setting up and usin
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/portfolio-automation.git
+   https://github.com/Fikriazrbni/MyPortfolio-Automation.git
    cd portfolio-automation
    ```
 

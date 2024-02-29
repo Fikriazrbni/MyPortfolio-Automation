@@ -7,7 +7,8 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = {"src/resources/Features/Api.feature"},
+        tags = "@apiWithAuth",
         glue = {"Definitions"}
 )
-public class testRunner {
+public class apiTestRunner {
 }

@@ -17,9 +17,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import static Const.GlobalConst.*;
 import static DataTools.EncryptData.decrypt;
 import static DataTools.ExcelTools.readData;
@@ -35,7 +40,7 @@ public class DeallStepDef extends BaseAction {
         this.scenario = scenario;
     }
 
-    @Before
+
     public void setupDriver() {
         extent = new ExtentReports();
         ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter("extent-reports/report.html");
@@ -47,7 +52,7 @@ public class DeallStepDef extends BaseAction {
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofMinutes(1));
     }
-    @After
+
     public void afterTest(){
         driver.quit();
         extent.flush();

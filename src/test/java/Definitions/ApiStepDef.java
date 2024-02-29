@@ -13,6 +13,7 @@ import static org.testng.Assert.assertEquals;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 public class ApiStepDef {
 
@@ -27,10 +28,22 @@ public class ApiStepDef {
     private static final String PET_ENDPOINTDELETEUSER = "/user/";
     private Response response;
     String petId = null;
-    String id = null;
+    String id = "";
     String petName = null;
     JsonPath json;
     JSONObject object = new JSONObject();
+
+    private static final String BASE_URL_WithAuth = "http://restapi.adequateshop.com";
+    private static final String AWU_POST_REGIS = "/api/authaccount/registration";
+    private static final String AWU_POST_LOGIN = "/api/authaccount/login";
+    private static final String AWU_GET_ALL_USER = "/api/users?page=1";
+    private static final String AWU_GET_USERBYID = "/api/users/";
+    private static final String AWU_POST_USEROBJ = "/api/users";
+    private static final String AWU_PUT_USEROBJ = "/api/users/";
+    private static final String AWU_DELETE_USER = "/api/users/";
+    String token = "";
+
+
 
     //=============================== Func Method =============================//
     public static boolean verifyResponse(String expected, Response response, String title) {
@@ -196,5 +209,71 @@ public class ApiStepDef {
                 .body(object)
                 .get(BASE_URL + PET_ENDPOINTLOGIN);
         verifyResponse("405", response, "login with deleted user response");
+    }
+
+    //apiWithAuth
+    @Given("registration user")
+    public void registrationUser() {
+//        String requestBody = "{\"name\":\"Fikri\",\"email\":\"fikri@gmail.com\",\"password\":fikri123}";
+        JSONObject object = new JSONObject();
+
+        object.put("name", "Fikri1");
+        object.put("email", "fikri1@gmail.com");
+        object.put("password", "fikri123");
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("User", object);
+        response = given()
+                .contentType("application/json")
+                .body(object.toString())
+                .when()
+                .post(BASE_URL_WithAuth + AWU_POST_REGIS);
+        verifyResponse("200", response, "registering new user");
+        JsonPath json = response.jsonPath();
+        response.prettyPrint();
+        id = json.get("Id").toString();
+        token = json.getString("data.Token");
+        System.out.println(id + " " + token);
+    }
+
+    @Then("login with registered user")
+    public void loginWithRegisteredUser() {
+        token = "0c239c13-e283-49ba-8aac-bb803e3a698e";
+        JSONObject object = new JSONObject();
+        object.put("email", "fikri@gmail.com");
+        object.put("password", "fikri123");
+//        HashMap<String, String> headers = new HashMap<>();
+//        headers.put("Authorization", "Bearer " + token);
+        response = given()
+                .contentType("application/json")
+                .body(object.toString())
+                .header("Authorization", "Bearer " + token)
+                .when()
+                .post(BASE_URL_WithAuth + AWU_POST_LOGIN);
+        verifyResponse("200", response, "login with valid credential");
+        response.prettyPrint();
+        JSONObject jsonObject = new JSONObject(response.prettyPrint());
+        JSONObject data = jsonObject.getJSONObject("data");
+        id = String.valueOf(data.getInt("Id"));
+        System.out.println(id);
+    }
+
+    @And("get all user info")
+    public void getAllUserInfo() {
+    }
+
+    @And("get user by id")
+    public void getUserById() {
+    }
+
+    @And("create user object")
+    public void createUserObject() {
+    }
+
+    @And("update user object")
+    public void updateUserObject() {
+    }
+
+    @And("delete user by id")
+    public void deleteUserById() {
     }
 }

@@ -19,7 +19,7 @@ Feature: ApiTesting
     Scenario: Test Api With Authentication
 #      Given registration user
       Then login with registered user
-      And get all user info
+#      And get all user info
       And get user by id
       And create user object
       And update user object

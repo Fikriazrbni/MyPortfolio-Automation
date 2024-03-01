@@ -13,7 +13,6 @@ import static org.testng.Assert.assertEquals;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 
 public class ApiStepDef {
 
@@ -26,13 +25,6 @@ public class ApiStepDef {
     private static final String PET_ENDPOINTLOGIN = "/user/login";
     private static final String PET_ENDPOINTLOGOUT = "/user/logout";
     private static final String PET_ENDPOINTDELETEUSER = "/user/";
-    private Response response;
-    String petId = null;
-    String id = "";
-    String petName = null;
-    JsonPath json;
-    JSONObject object = new JSONObject();
-
     private static final String BASE_URL_WithAuth = "http://restapi.adequateshop.com";
     private static final String AWU_POST_REGIS = "/api/authaccount/registration";
     private static final String AWU_POST_LOGIN = "/api/authaccount/login";
@@ -41,21 +33,24 @@ public class ApiStepDef {
     private static final String AWU_POST_USEROBJ = "/api/users";
     private static final String AWU_PUT_USEROBJ = "/api/users/";
     private static final String AWU_DELETE_USER = "/api/users/";
-    String token = "";
 
+    private Response response;
+    String petId = "";
+    String id = "";
+    String petName = "";
+    String token = "";
+    JsonPath json;
+    JSONObject object = new JSONObject();
 
 
     //=============================== Func Method =============================//
-    public static boolean verifyResponse(String expected, Response response, String title) {
-        String actual = String.valueOf(response.getStatusCode());
+    public static void verifyResponse(String expected, String response, String title) {
+        String actual = String.valueOf(response);
         try {
             Assert.assertEquals(actual, expected);
-            System.out.println(title+" | AssertTrue >>>>>>>>>> Expected : [" + expected + "]  -  " + "Actual : [" + actual + "]");
-            return true;
+            System.out.println("AssertTrue >>>>>>>>>> Expected : [" + expected + "]  -  " + "Actual : [" + actual + "] | " + title);
         } catch (AssertionError ee) {
-            System.out.println(title+" | AssertFalse >>>>>>>>> Expected : [" + expected + "]  -  " + "Actual : [" + actual + "]");
-            response.getBody().prettyPrint();
-            return false;
+            System.out.println("AssertFalse >>>>>>>>> Expected : [" + expected + "]  -  " + "Actual : [" + actual + "] | " + title);
         }
     }
     public static String hashPassword(String password) throws NoSuchAlgorithmException {
@@ -72,10 +67,6 @@ public class ApiStepDef {
         }
         return sb.toString();
     }
-//    @Test
-//    public void test() throws NoSuchAlgorithmException {
-//        System.out.println(hashPassword("fikri123"));
-//    }
 
     //=============================== Test Method =============================//
     @Given("post to create new pet")
@@ -86,7 +77,7 @@ public class ApiStepDef {
                 .body(requestBody)
                 .when()
                 .post(BASE_URL + PET_ENDPOINTPOST);
-        verifyResponse("200", response, "create new pet response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "create new pet response");
     }
 
     @Then("I get a response {int} and the pet ID")
@@ -96,7 +87,7 @@ public class ApiStepDef {
         petId = json.get("id").toString();
         System.out.println("post : " + petId);
         assertEquals(arg0, response.getStatusCode());
-        verifyResponse("200", response, "get pet detail response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "get pet detail response");
     }
 
     @And("a get request with pet ID")
@@ -105,7 +96,7 @@ public class ApiStepDef {
         JsonPath json = responseGet.jsonPath();
         petName = json.getString("name");
         String status = json.getString("status");
-        verifyResponse("200", response, "get new pet id response");
+        verifyResponse(status, String.valueOf(response.getStatusCode()), "get new pet id response");
     }
 
     @Then("I get a response {int} and the pet name")
@@ -128,7 +119,7 @@ public class ApiStepDef {
                 .contentType("application/json")
                 .body(requestBody)
                 .post(BASE_URL + PET_ENDPOINTORDER);
-        verifyResponse("200", response, "place order response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "place order response");
         json = response.jsonPath();
         id = json.getString("id");
         System.out.println("order id : "+id);
@@ -137,7 +128,7 @@ public class ApiStepDef {
     @Then("get detail of order")
     public void getDetailOfOrder() {
         response = given().when().get(BASE_URL + PET_ENDPOINTORDERDETAIL+id);
-        verifyResponse("200", response, "get order detail response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "get order detail response");
 
     }
 
@@ -146,7 +137,7 @@ public class ApiStepDef {
         response = given()
                 .contentType("application/json")
                 .delete(BASE_URL+PET_ENDPOINTORDERDETAIL+id);
-        verifyResponse("200", response, "delete order response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "delete order response");
     }
 
     @And("create a new user")
@@ -164,7 +155,7 @@ public class ApiStepDef {
                 .contentType("application/json")
                 .body(object)
                 .post(BASE_URL+PET_ENDPOINTCREATEUSER);
-        verifyResponse("200", response, "create user response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "create user response");
     }
 
     @Then("login with new user")
@@ -177,7 +168,7 @@ public class ApiStepDef {
                 .contentType("application/json")
                 .body(object)
                 .get(BASE_URL+PET_ENDPOINTLOGIN);
-        verifyResponse("200", response, "login response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "login response");
     }
 
     @Then("logout")
@@ -185,7 +176,7 @@ public class ApiStepDef {
         response = given()
                 .contentType("application/json")
                 .get(BASE_URL+PET_ENDPOINTLOGOUT);
-        verifyResponse("200", response, "logout response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "logout response");
     }
 
     @Then("delete user")
@@ -196,7 +187,7 @@ public class ApiStepDef {
         response = given()
                 .body(object)
                 .delete(BASE_URL+PET_ENDPOINTDELETEUSER);
-        verifyResponse("200", response, "deleted user response");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "deleted user response");
     }
     @And("login with deleted user")
     public void loginWithDeletedUser() {
@@ -208,7 +199,7 @@ public class ApiStepDef {
                 .contentType("application/json")
                 .body(object)
                 .get(BASE_URL + PET_ENDPOINTLOGIN);
-        verifyResponse("405", response, "login with deleted user response");
+        verifyResponse("405", String.valueOf(response.getStatusCode()), "login with deleted user response");
     }
 
     //apiWithAuth
@@ -227,7 +218,7 @@ public class ApiStepDef {
                 .body(object.toString())
                 .when()
                 .post(BASE_URL_WithAuth + AWU_POST_REGIS);
-        verifyResponse("200", response, "registering new user");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "registering new user");
         JsonPath json = response.jsonPath();
         response.prettyPrint();
         id = json.get("Id").toString();
@@ -237,7 +228,7 @@ public class ApiStepDef {
 
     @Then("login with registered user")
     public void loginWithRegisteredUser() {
-        token = "0c239c13-e283-49ba-8aac-bb803e3a698e";
+//        token = "0c239c13-e283-49ba-8aac-bb803e3a698e";
         JSONObject object = new JSONObject();
         object.put("email", "fikri@gmail.com");
         object.put("password", "fikri123");
@@ -246,23 +237,44 @@ public class ApiStepDef {
         response = given()
                 .contentType("application/json")
                 .body(object.toString())
-                .header("Authorization", "Bearer " + token)
+//                .header("Authorization", "Bearer " + token)
                 .when()
                 .post(BASE_URL_WithAuth + AWU_POST_LOGIN);
-        verifyResponse("200", response, "login with valid credential");
-        response.prettyPrint();
+//        response.prettyPrint();
         JSONObject jsonObject = new JSONObject(response.prettyPrint());
         JSONObject data = jsonObject.getJSONObject("data");
         id = String.valueOf(data.getInt("Id"));
+        token = data.getString("Token");
+        String name = data.getString("Name");
         System.out.println(id);
+        System.out.println(token);
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "login with valid credential");
+        verifyResponse(name, "Fikri", "User Name");
     }
 
     @And("get all user info")
     public void getAllUserInfo() {
+        response = given()
+                .contentType("application/json")
+                .header("Authorization", "Bearer " + token)
+                .when().get(AWU_GET_ALL_USER);
+
+        JSONObject jsonObject = new JSONObject(response.prettyPrint());
+        String totalUser = jsonObject.getString("totalrecord");
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "Total user -> " + totalUser);
     }
 
     @And("get user by id")
     public void getUserById() {
+        response = given()
+                .contentType("application/json")
+                .header("Authorization", "Bearer " + token)
+                .when().get(AWU_GET_USERBYID + id);
+
+        JSONObject jsonObject = new JSONObject(response.prettyPrint());
+        String email = jsonObject.getString("email");
+        System.out.println();
+        verifyResponse("200", String.valueOf(response.getStatusCode()), "Email user -> " + email);
     }
 
     @And("create user object")

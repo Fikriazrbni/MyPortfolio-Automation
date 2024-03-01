@@ -1,7 +1,29 @@
 package org.example;
 
+import org.testng.annotations.Test;
+
+import java.util.HashMap;
+
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world!");
+    @Test
+    private void testShopee(){
+        String text = "ASSALAMUALAIKUM";
+        HashMap<String, Integer> karakter = new HashMap<>();
+
+        for (int x=0; x<text.length(); x++){
+            String s = String.valueOf(text.charAt(x));
+            if (karakter.containsKey(s)){
+                karakter.replace(s, karakter.get(s), karakter.get(s) + 1);
+            }else {
+                karakter.put(s, 1);
+            }
+        }
+        for (int x=0; x<text.length(); x++) {
+            String s = String.valueOf(text.charAt(x));
+            if (karakter.get(s)==1){
+                System.out.println("Char "+s+ " Index of : "+x);
+                break;
+            }
+        }
     }
 }

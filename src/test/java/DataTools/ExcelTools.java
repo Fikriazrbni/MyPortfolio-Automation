@@ -1,4 +1,4 @@
-package dataCenter;
+package DataTools;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -11,10 +11,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static dataCenter.securityData.decrypt;
-import static dataCenter.securityData.encrypt;
+import static DataTools.EncryptData.decrypt;
+import static DataTools.EncryptData.encrypt;
 
-public class excelJobs {
+public class ExcelTools {
     private final static String path = "testData.xlsx";
 
     public static String readData(String targetString) {
@@ -72,7 +72,7 @@ public class excelJobs {
 
     @Test
     public void test() throws IOException {
-        writeNewCredential("usere2e", encrypt("password"));
-        System.out.println(decrypt(readData("usere2e")));
+        writeNewCredential("Password Deal", encrypt("Miyuangaming1998"));
+        System.out.println(decrypt(readData("Password Deal")));
     }
 }

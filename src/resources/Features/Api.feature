@@ -1,5 +1,6 @@
 Feature: ApiTesting
 
+  @apiPetStore
   Scenario: petStore not PStore
     Given post to create new pet
     Then  I get a response 200 and the pet ID
@@ -13,3 +14,14 @@ Feature: ApiTesting
     Then logout
     Then delete user
     And login with deleted user
+
+    @apiWithAuth
+    Scenario: Test Api With Authentication
+#      Given registration user
+      Then login with registered user
+#      And get all user info
+      And get user by id
+      And create user object
+      And update user object
+      And delete user by id
+

@@ -3,6 +3,7 @@ package Definitions;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.json.JSONObject;
@@ -29,7 +30,7 @@ public class ApiStepDef {
     private static final String AWU_POST_REGIS = "/api/authaccount/registration";
     private static final String AWU_POST_LOGIN = "/api/authaccount/login";
     private static final String AWU_GET_ALL_USER = "/api/users?page=1";
-    private static final String AWU_GET_USERBYID = "/api/users/";
+    private static final String AWU_GET_USERBYID = "/api/users/318265";
     private static final String AWU_POST_USEROBJ = "/api/users";
     private static final String AWU_PUT_USEROBJ = "/api/users/";
     private static final String AWU_DELETE_USER = "/api/users/";
@@ -269,7 +270,7 @@ public class ApiStepDef {
         response = given()
                 .contentType("application/json")
                 .header("Authorization", "Bearer " + token)
-                .when().get(AWU_GET_USERBYID + id);
+                .when().get(AWU_GET_USERBYID);
 
         JSONObject jsonObject = new JSONObject(response.prettyPrint());
         String email = jsonObject.getString("email");

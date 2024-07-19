@@ -40,12 +40,10 @@ public class DeallStepDef extends BaseAction {
         this.scenario = scenario;
     }
 
-
     public void setupDriver() {
         extent = new ExtentReports();
         ExtentSparkReporter extentSparkReporter = new ExtentSparkReporter("extent-reports/report.html");
         extent.attachReporter(extentSparkReporter);
-
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("start-maximized");
@@ -60,6 +58,7 @@ public class DeallStepDef extends BaseAction {
 
     @Given("open url")
     public void open_url() {
+        setupDriver();
         driver.get(urlDealls);
     }
 

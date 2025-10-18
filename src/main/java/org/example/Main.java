@@ -1,11 +1,10 @@
 package org.example;
 
-import org.testng.annotations.Test;
 
 import java.util.HashMap;
 
 public class Main {
-    @Test
+
     private void testShopee(){
         String text = "ASSALAMUALAIKUM";
         HashMap<String, Integer> karakter = new HashMap<>();

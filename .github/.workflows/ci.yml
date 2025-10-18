@@ -14,14 +14,45 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v3
 
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'maven'
 
-      - name: Build with Maven
-        run: mvn clean package -DskipTests
+      - name: Build with Maven (verbose)
+        run: mvn clean package -DskipTests -B -V
 
       - name: Run tests
-        run: mvn test
+        run: mvn test -B
+
+      - name: Upload Cucumber XML report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cucumber-xml-report
+          path: target/cucumber-reports/Cucumber.xml
+
+      - name: Upload HTML report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cucumber-html-report
+          path: target/cucumber-reports/report.html
+
+      - name: Publish Cucumber results
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: Cucumber Tests
+          path: target/cucumber-reports/Cucumber.xml
+          reporter: java-junit

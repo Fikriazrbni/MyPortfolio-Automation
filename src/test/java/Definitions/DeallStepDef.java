@@ -6,6 +6,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import io.cucumber.java.After;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -15,6 +16,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -30,7 +33,7 @@ public class DeallStepDef extends BaseAction {
     private ExtentReports extent;
     private ExtentTest test;
     private Scenario scenario;
-    private Screenshoot screenshoot;
+//    private Screenshoot screenshoot;
     public void YourStepDefinitions(Scenario scenario) {
         this.scenario = scenario;
     }
@@ -48,10 +51,16 @@ public class DeallStepDef extends BaseAction {
         driver.manage().timeouts().implicitlyWait(Duration.ofMinutes(1));
     }
 
-    public void afterTest(){
-        driver.quit();
-        extent.flush();
+    @After
+    public void afterScenario() {
+        if (driver != null) {
+            driver.quit();
+        }
+        if (extent != null) {
+            extent.flush();
+        }
     }
+
 
     @Given("open url")
     public void open_url() {
@@ -76,7 +85,7 @@ public class DeallStepDef extends BaseAction {
         String actual = m.substring(0,15);
         Assert.assertEquals(actual, "Email Not found");
         test.log(Status.INFO, actual);
-        screenshoot.capture(driver);
+//        screenshoot.capture(driver);
     }
 
     @When("login with valid credential")

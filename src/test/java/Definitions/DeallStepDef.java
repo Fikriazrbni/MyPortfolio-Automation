@@ -47,9 +47,9 @@ public class DeallStepDef extends BaseAction {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         if (System.getenv("CI") != null) {
-            options.addArguments("--headless=new");
-            options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--headless=new");
         } else {
             options.addArguments("--start-maximized");
         }

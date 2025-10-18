@@ -12,6 +12,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -46,17 +47,21 @@ public class DeallStepDef extends BaseAction {
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
+
         if (System.getenv("CI") != null) {
-            options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--no-sandbox");
             options.addArguments("--headless=new");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--window-size=1920,1080");
-        } else {
-            options.addArguments("--start-maximized");
         }
 
-
         driver = new ChromeDriver(options);
+
+        if (System.getenv("CI") != null) {
+            driver.manage().window().setSize(new Dimension(1920, 1080));
+        } else {
+            driver.manage().window().maximize();
+        }
         driver.manage().timeouts().implicitlyWait(Duration.ofMinutes(1));
     }
 

@@ -50,6 +50,7 @@ public class DeallStepDef extends BaseAction {
             options.addArguments("--disable-dev-shm-usage");
             options.addArguments("--no-sandbox");
             options.addArguments("--headless=new");
+            options.addArguments("--window-size=1920,1080");
         } else {
             options.addArguments("--start-maximized");
         }

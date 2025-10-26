@@ -53,11 +53,3 @@ jobs:
         with:
           name: cucumber-html-report
           path: target/cucumber-reports/report.html
-
-      - name: Publish Cucumber results
-        if: always()
-        uses: dorny/test-reporter@v1
-        with:
-          name: Cucumber Tests
-          path: target/cucumber-reports/Cucumber.xml
-          reporter: cucumber

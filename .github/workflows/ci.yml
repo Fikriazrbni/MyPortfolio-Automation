@@ -14,10 +14,10 @@ jobs:
       - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: Install Chrome stable
-        run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
+      # - name: Install Chrome stable
+      #   run: |
+      #     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      #     sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get -f install -y
 
       - name: Cache Maven packages
         uses: actions/cache@v4
@@ -60,4 +60,4 @@ jobs:
         with:
           name: Cucumber Tests
           path: target/cucumber-reports/Cucumber.xml
-          reporter: java-junit
+          reporter: cucumber

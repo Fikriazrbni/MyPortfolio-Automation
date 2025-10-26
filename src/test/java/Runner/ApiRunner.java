@@ -5,8 +5,8 @@ import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
         features = {"src/resources/Features/Api.feature"},
-        tags = "@apiWithAuth",
+        tags = "@apiPetStore",
         glue = {"Definitions"}
 )
-public class apiTestRunner extends AbstractTestNGCucumberTests {
+public class ApiRunner extends AbstractTestNGCucumberTests {
 }

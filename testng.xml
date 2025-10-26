@@ -1,8 +1,13 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 <suite name="CucumberSuite">
-    <test name="DeallsRunnerTest">
+<!--    <test name="DeallsRunnerTest">-->
+<!--        <classes>-->
+<!--            <class name="Runner.DeallsRunner"/>-->
+<!--        </classes>-->
+<!--    </test>-->
+    <test name="ApiTest">
         <classes>
-            <class name="Runner.DeallsRunner"/>
+            <class name="Runner.ApiRunner"/>
         </classes>
     </test>
 </suite>
